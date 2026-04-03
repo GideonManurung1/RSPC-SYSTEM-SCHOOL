@@ -1,0 +1,191 @@
+{
+  "kredensial": [
+    {
+      "id": 1,
+      "username": "ani",
+      "password": "ani123",
+      "siswaId": 1,
+      "role": "siswa"
+    },
+    {
+      "id": 2,
+      "username": "budi",
+      "password": "budi123",
+      "siswaId": 2,
+      "role": "siswa"
+    },
+    {
+      "id": 3,
+      "username": "guru",
+      "password": "guru123",
+      "role": "guru"
+    },
+    {
+      "id": 4,
+      "username": "User",
+      "password": "User123",
+      "role": "admin"
+    }
+  ],
+  "siswa": [
+    {
+      "id": 2,
+      "nama": "Budi Santoso",
+      "kelas": "XII - IPA 1",
+      "poin": 100,
+      "jumlahPelanggaran": 0,
+      "kategori": "Sangat Baik",
+      "status": "AMAN"
+    },
+    {
+      "id": 1,
+      "nama": "Ani Wijaya",
+      "kelas": "XII - IPA 2",
+      "poin": 75,
+      "jumlahPelanggaran": 5,
+      "kategori": "Cukup",
+      "status": "WASPADA"
+    }
+  ],
+  "pelanggaran": [
+    {
+      "id": 1,
+      "siswaId": 1,
+      "tanggal": "2024-03-15",
+      "jenis": "Terlambat",
+      "poinKurang": 5,
+      "keterangan": "Terlambat 15 menit"
+    },
+    {
+      "id": 2,
+      "siswaId": 1,
+      "tanggal": "2024-03-20",
+      "jenis": "Tidak Mengerjakan PR",
+      "poinKurang": 10,
+      "keterangan": "Tidak mengerjakan PR mata pelajaran Matematika"
+    }
+  ],
+  "konseling": [
+    {
+      "id": 1,
+      "siswaId": 1,
+      "tanggalSesi": "2024-03-08",
+      "jam": "10:00",
+      "hari": "Senin",
+      "pembina": "Pak Rusdi Ngawi",
+      "status": "Dijadwalkan",
+      "rekomendasi": "Tingkatkan kehadiran di kegiatan ekstrakurikuler untuk penguatan poin positif."
+    },
+    {
+      "id": 2,
+      "siswaId": 1,
+      "tanggalSesi": "2024-02-28",
+      "jam": "13:00",
+      "status": "Selesai",
+      "rekomendasi": "Kurangi keterlambatan ke sekolah"
+    }
+  ],
+  "kategoriPenilaian": [
+    {
+      "id": 1,
+      "nama": "Sangat Baik",
+      "minPoin": 91,
+      "maxPoin": 100,
+      "warna": "bg-green-500",
+      "keterangan": "Siswa teladan, bebas sanksi.",
+      "status": "AMAN"
+    },
+    {
+      "id": 2,
+      "nama": "Baik",
+      "minPoin": 81,
+      "maxPoin": 90,
+      "warna": "bg-sky-500",
+      "keterangan": "Mematuhi peraturan dengan baik.",
+      "status": "AMAN"
+    },
+    {
+      "id": 3,
+      "nama": "Cukup",
+      "minPoin": 71,
+      "maxPoin": 80,
+      "warna": "bg-yellow-500",
+      "keterangan": "Memerlukan pembinaan ringan.",
+      "status": "WASPADA"
+    },
+    {
+      "id": 4,
+      "nama": "Kurang",
+      "minPoin": 51,
+      "maxPoin": 70,
+      "warna": "bg-pink-600",
+      "keterangan": "Surat Peringatan 1",
+      "status": "KURANG"
+    },
+    {
+      "id": 5,
+      "nama": "Perlu Perhatian",
+      "minPoin": 0,
+      "maxPoin": 50,
+      "warna": "bg-red-600",
+      "keterangan": "Rawan Sanksi Berat / DO.",
+      "status": "KRITIS"
+    }
+  ],
+  "jenisPeralngaran": [
+    {
+      "id": 1,
+      "nama": "Terlambat",
+      "poinKurang": 5,
+      "deskripsi": "Masuk kelas tidak tepat waktu"
+    },
+    {
+      "id": 2,
+      "nama": "Bolos",
+      "poinKurang": 15,
+      "deskripsi": "Tidak hadir tanpa keterangan"
+    },
+    {
+      "id": 3,
+      "nama": "Tidak Mengerjakan PR",
+      "poinKurang": 10,
+      "deskripsi": "Tidak mengerjakan pekerjaan rumah"
+    },
+    {
+      "id": 4,
+      "nama": "Melanggar Seragam",
+      "poinKurang": 8,
+      "deskripsi": "Mengenakan seragam tidak sesuai ketentuan"
+    },
+    {
+      "id": 5,
+      "nama": "Tidak Sopan",
+      "poinKurang": 20,
+      "deskripsi": "Berperilaku tidak sopan kepada guru atau teman"
+    }
+  ],
+  "guru": [
+    {
+      "id": 1,
+      "nama": "Pak Rusdi Ngawi",
+      "jabatan": "Guru BK",
+      "gambar": "./rusdi-removebg-preview.png",
+      "spesialisasi": "Konseling Karakter"
+    },
+    {
+      "id": 2,
+      "nama": "Pak Amba Ngawi",
+      "jabatan": "Guru BK",
+      "gambar": "./amba-removebg-preview.png",
+      "spesialisasi": "Konseling Akademik"
+    }
+  ],
+    "namaSekolah": "RCPS Sultan Iskandar Muda",
+    "namaPortal": "Portal Kedisiplinan",
+    "tahunAjaran": "2024/2025",
+    "semester": 2,
+    "minPoinDropOut": 0,
+    "hariLibur": ["Sabtu", "Minggu"]
+  }
+
+
