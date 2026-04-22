@@ -54,6 +54,44 @@
         .page-content.hidden {
             display: none;
         }
+        /* Fix scrolling issues */
+        html, body {
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        body {
+            height: auto;
+            min-h-screen;
+        }
+        /* Modal styling dengan scrolling */
+        #page-konseling-booking {
+            position: fixed !important;
+            inset: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 50;
+            -webkit-overflow-scrolling: touch;
+        }
+        #page-konseling-booking.hidden {
+            display: none;
+        }
+        #page-konseling-booking .glass-card {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        /* Responsive scrolling fixes */
+        @media (max-width: 768px) {
+            html, body {
+                height: 100%;
+            }
+            main {
+                padding-bottom: 2rem;
+            }
+            #page-konseling-booking .glass-card {
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+        }
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -66,7 +104,7 @@
         }
     </style>
 </head>
-<body class="bg-overlay min-h-screen">
+<body class="bg-overlay min-h-screen overflow-x-hidden">
 
     <nav id="navbar" class="sticky top-0 z-50 bg-sky-600 text-white shadow-lg">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
@@ -240,11 +278,6 @@
                     </button>
                 </form>
 
-                <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <p class="text-xs text-blue-700 font-semibold mb-2">Demo Login:</p>
-                    <p class="text-xs text-blue-600">Siswa: <strong>budi</strong> | Password: <strong>budi123</strong></p>
-                    <p class="text-xs text-blue-600">Admin: <strong>User</strong> | Password: <strong>User123</strong></p>
-                </div>
 
                 <p class="text-center text-gray-500 text-sm mt-6">
                     &copy; 2026 RCPS Sultan Iskandar Muda
@@ -254,8 +287,8 @@
 
     </main>
 
-    <section id="page-konseling-booking" class="page-content hidden fixed inset-0 flex items-center justify-center bg-overlay">
-        <div class="glass-card p-12 rounded-3xl shadow-2xl w-full max-w-2xl border border-white/20 mx-4">
+    <section id="page-konseling-booking" class="page-content hidden fixed inset-0 flex items-center justify-center bg-black/50 overflow-y-auto z-50">
+        <div class="glass-card p-12 rounded-3xl shadow-2xl w-full max-w-2xl border border-white/20 mx-4 my-8">
             <h1 class="text-3xl font-bold text-sky-900 mb-6 text-center">KONSELING DENGAN</h1>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -580,13 +613,24 @@
                 targetPage.classList.remove('hidden');
             }
 
+            // Manage scrolling for modal pages
+            if (pageId === 'konseling-booking') {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+
             // Sembunyikan navbar saat login page
             const navbar = document.getElementById('navbar');
             if (pageId === 'login') {
                 navbar.classList.add('hidden');
+                document.body.style.overflow = 'auto';
             } else {
                 navbar.classList.remove('hidden');
             }
+
+            // Scroll ke atas halaman baru
+            window.scrollTo(0, 0);
 
             setTimeout(() => {
                 waveOverlay.remove();
