@@ -103,58 +103,92 @@
             }
         }
     </style>
+    <!-- Database & API Configuration -->
+    <script src="./config.js"></script>
+    <script src="./db-service.js"></script>
 </head>
 <body class="bg-overlay min-h-screen overflow-x-hidden">
 
     <nav id="navbar" class="sticky top-0 z-50 bg-sky-600 text-white shadow-lg">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <span class="font-bold text-xl tracking-tight">RCPS SIM</span>
+        <div class="container mx-auto px-4 py-2 md:py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2 md:space-x-3">
+                <!-- Logo - Ganti src dengan path logo Anda -->
+                <img src="./channels4_profile-removebg-preview.png" alt="Logo RCPS" class="h-10 w-10 md:h-12 md:w-12 object-contain bg-white rounded-lg p-1">
+                <span class="font-bold text-lg md:text-xl tracking-tight">RCPS SIM</span>
             </div>
-            <div class="hidden md:flex space-x-6 font-medium">
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-4 lg:space-x-6 font-medium text-sm lg:text-base">
                 <button onclick="showPage('home')" class="hover:text-sky-200 transition">Home</button>
                 <button onclick="showPage('konseling')" class="hover:text-sky-200 transition">Konseling</button>
                 <button onclick="showPage('bobot')" class="hover:text-sky-200 transition">Ketentuan Bobot</button>
                 <button onclick="showPage('riwayat')" class="hover:text-sky-200 transition">Riwayat</button>
             </div>
-            <button onclick="handleLogout()" class="bg-white text-sky-600 px-5 py-2 rounded-full font-bold hover:bg-sky-50 transition shadow-md">
+            <!-- Hamburger Menu Button -->
+            <button id="hamburgerBtn" onclick="toggleMobileMenu()" class="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 cursor-pointer">
+                <span class="block w-6 h-0.5 bg-white transition-transform origin-center"></span>
+                <span class="block w-6 h-0.5 bg-white transition-transform origin-center"></span>
+                <span class="block w-6 h-0.5 bg-white transition-transform origin-center"></span>
+            </button>
+            <!-- Desktop Logout -->
+            <button onclick="handleLogout()" class="hidden md:inline-block bg-white text-sky-600 px-4 py-2 rounded-full font-bold hover:bg-sky-50 transition shadow-md text-sm">
                 Logout
             </button>
+        </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden absolute top-full left-0 right-0 bg-sky-700 shadow-lg">
+            <div class="flex flex-col p-4 space-y-3">
+                <button onclick="showPage('home'); toggleMobileMenu();" class="text-left py-2 border-b border-sky-600 hover:text-sky-200 transition">🏠 Home</button>
+                <button onclick="showPage('konseling'); toggleMobileMenu();" class="text-left py-2 border-b border-sky-600 hover:text-sky-200 transition">💬 Konseling</button>
+                <button onclick="showPage('bobot'); toggleMobileMenu();" class="text-left py-2 border-b border-sky-600 hover:text-sky-200 transition">⚖️ Ketentuan Bobot</button>
+                <button onclick="showPage('riwayat'); toggleMobileMenu();" class="text-left py-2 border-b border-sky-600 hover:text-sky-200 transition">📋 Riwayat</button>
+                <button onclick="handleLogout(); toggleMobileMenu();" class="text-left py-2 text-red-300 hover:text-red-100 transition">🚪 Logout</button>
+            </div>
         </div>
     </nav>
 
     <main class="container mx-auto px-4 py-8">
         
         <section id="page-home" class="page-content space-y-6">
-            <div class="glass-card p-8 rounded-3xl shadow-xl border border-white/20">
-                <h1 class="text-3xl font-bold text-sky-900 mb-2">Halo, <span id="display-nama">Siswa</span>!</h1>
-                <p class="text-sky-700">Selamat datang kembali di Portal Kedisiplinan Sultan Iskandar Muda. Tetaplah disiplin dan berprestasi.</p>
+            <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl border border-white/20">
+                <h1 class="text-2xl md:text-3xl font-bold text-sky-900 mb-2">Halo, <span id="display-nama">Siswa</span>!</h1>
+                <p class="text-sky-700 text-sm md:text-base">Selamat datang kembali di Portal Kedisiplinan Sultan Iskandar Muda. Tetaplah disiplin dan berprestasi.</p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                    <div class="bg-white p-6 rounded-2xl border-l-4 border-sky-500 shadow-sm">
-                        <p class="text-sm text-gray-500 uppercase font-bold tracking-wider">Profil Siswa</p>
-                        <p id="profile-nama" class="text-lg font-bold text-gray-800 mt-2">-</p>
-                        <p id="profile-kelas" class="text-gray-600">-</p>
-                        <div class="mt-4 inline-block bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-bold">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-6 md:mt-8">
+                    <div class="bg-white p-4 md:p-6 rounded-xl md:rounded-2xl border-l-4 border-sky-500 shadow-sm">
+                        <p class="text-xs md:text-sm text-gray-500 uppercase font-bold tracking-wider">Profil Siswa</p>
+                        <p id="profile-nama" class="text-base md:text-lg font-bold text-gray-800 mt-1 md:mt-2">-</p>
+                        <p id="profile-kelas" class="text-gray-600 text-sm">-</p>
+                        <div class="mt-3 md:mt-4 inline-block bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-bold">
                             Poin Aktif: <span id="profile-poin">0</span>
                         </div>
                     </div>
 
-                    <div id="status-card" class="p-6 rounded-2xl shadow-sm text-white flex flex-col justify-center items-center">
-                        <p class="text-sm uppercase font-bold opacity-80">Status Saat Ini</p>
-                        <p id="status-text" class="text-3xl font-black mt-2">LOADING</p>
+                    <div id="status-card" class="p-4 md:p-6 rounded-xl md:rounded-2xl shadow-sm text-white flex flex-col justify-center items-center">
+                        <p class="text-xs md:text-sm uppercase font-bold opacity-80">Status Saat Ini</p>
+                        <p id="status-text" class="text-2xl md:text-3xl font-black mt-1 md:mt-2">LOADING</p>
                     </div>
 
                     <div class="grid grid-cols-1 gap-2">
-                        <div class="bg-white p-3 px-5 rounded-xl shadow-sm flex justify-between items-center border border-gray-100">
+                        <div class="bg-white p-3 px-4 md:p-3 md:px-5 rounded-lg md:rounded-xl shadow-sm flex justify-between items-center border border-gray-100">
                             <span class="text-gray-500 text-sm">Jumlah Pelanggaran</span>
                             <span id="stat-pelanggaran" class="font-bold text-sky-600">0</span>
                         </div>
-                        <div class="bg-white p-3 px-5 rounded-xl shadow-sm flex justify-between items-center border border-gray-100">
+                        <div class="bg-white p-3 px-4 md:p-3 md:px-5 rounded-lg md:rounded-xl shadow-sm flex justify-between items-center border border-gray-100">
                             <span class="text-gray-500 text-sm">Kategori Poin</span>
                             <span id="stat-kategori" class="font-bold text-sky-600">-</span>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Section Pelanggaran -->
+            <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl border border-white/20">
+                <h2 class="text-xl md:text-2xl font-bold text-sky-900 mb-4 md:mb-6 flex items-center gap-2">
+                    <svg class="w-5 h-5 md:w-6 md:h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    Detail Pelanggaran
+                </h2>
+                <div id="pelanggaranContainer" class="space-y-3">
+                    <p class="text-gray-600 text-center py-4">Loading data pelanggaran...</p>
                 </div>
             </div>
         </section>
@@ -255,7 +289,7 @@
             </div>
         </section>
 
-        <section id="page-login" class="page-content hidden">
+        <section id="page-login" class="page-content hidden fixed inset-0 flex items-center justify-center min-h-screen">
             <div class="glass-card p-12 rounded-3xl shadow-2xl w-full max-w-md border border-white/20 mx-4">
                 <div class="text-center mb-8">
                     <h1 class="text-4xl font-bold text-sky-900 mb-2">RCPS SIM</h1>
@@ -278,6 +312,7 @@
                     </button>
                 </form>
 
+                <div id="loginMessage" class="mt-4 p-3 rounded-lg text-sm hidden"></div>
 
                 <p class="text-center text-gray-500 text-sm mt-6">
                     &copy; 2026 RCPS Sultan Iskandar Muda
@@ -463,6 +498,8 @@
             loadKonselingData();
             // Muat tabel kategori
             loadTabelKategori();
+            // Muat section pelanggaran
+            loadPelanggaranSection();
         }
 
         // Load Riwayat Pelanggaran
@@ -637,50 +674,216 @@
             }, 800);
         }
 
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const btn = document.getElementById('hamburgerBtn');
+            const spans = btn.querySelectorAll('span');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                // Animate hamburger to X
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                menu.classList.add('hidden');
+                // Reset hamburger
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        }
+
+        // Show Custom Notification
+        function showNotification(message, type = 'success') {
+            // Remove existing notification
+            const existing = document.getElementById('customNotification');
+            if (existing) existing.remove();
+
+            const notification = document.createElement('div');
+            notification.id = 'customNotification';
+            
+            const bgColor = type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-sky-600';
+            const icon = type === 'success' 
+                ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>'
+                : '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+
+            notification.className = `fixed top-16 md:top-20 left-1/2 transform -translate-x-1/2 ${bgColor} text-white px-4 md:px-6 py-3 md:py-4 rounded-xl shadow-xl z-50 flex items-center gap-2 md:gap-3 transition-all duration-300 ease-out translate-y-[-20px] opacity-0`;
+            notification.innerHTML = `
+                <div class="flex-shrink-0">${icon}</div>
+                <div>
+                    <p class="font-bold text-sm">${type === 'success' ? '✓ Berhasil' : '⚠ Peringatan'}</p>
+                    <p class="text-xs md:text-sm">${message}</p>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Animate in
+            requestAnimationFrame(() => {
+                notification.classList.remove('translate-y-[-20px]', 'opacity-0');
+            });
+
+            // Auto hide after 1.5 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translate-x(-1/2) translate-y(-10px)';
+                notification.style.transition = 'all 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 1500);
+        }
+
+        // Load Pelanggaran Section
+        function loadPelanggaranSection() {
+            const container = document.getElementById('pelanggaranContainer');
+            const pelanggaran = appData.pelanggaran.filter(p => p.siswaId === currentSiswa.id);
+
+            if (pelanggaran.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center gap-3">
+                        <div class="bg-green-100 p-2 rounded-full">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="font-bold text-green-800">Tidak Ada Pelanggaran</p>
+                            <p class="text-sm text-green-600">Great job! Kamu tidak memiliki pelanggaran apapun. Pertahankan!</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="space-y-2">';
+            pelanggaran.forEach((p, index) => {
+                html += `
+                    <div class="bg-red-50 border border-red-100 rounded-lg p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-red-100 p-2 rounded-full">
+                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            </div>
+                            <div>
+                                <p class="font-bold text-red-800">${p.jenis}</p>
+                                <p class="text-xs text-gray-600">${new Date(p.tanggal).toLocaleDateString('id-ID')} • ${p.keterangan}</p>
+                            </div>
+                        </div>
+                        <span class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">-${p.poinKurang}</span>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
         // Fungsi Handle Login
-        function handleLogin() {
+        async function handleLogin() {
             if (!appData || !appData.kredensial) {
-                alert('Sistem belum siap. Silahkan muat ulang halaman.');
+                showNotification('Sistem belum siap. Silahkan muat ulang halaman.', 'error');
                 return;
             }
 
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
+            const loginBtn = event.target;
+            const originalText = loginBtn.innerText;
 
             if (username === '' || password === '') {
-                alert('Username dan password tidak boleh kosong!');
+                showNotification('Username dan password tidak boleh kosong!', 'error');
                 return;
             }
 
-            // Validasi dari JSON
-            const user = appData.kredensial.find(k => k.username.toLowerCase() === username.toLowerCase() && k.password === password);
-            if (!user) {
-                alert('Username atau password salah!');
-                return;
-            }
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.innerText = 'Sedang Memproses...';
 
-            if (user.siswaId) {
-                currentSiswa = appData.siswa.find(s => s.id === user.siswaId);
-            } else {
-                currentSiswa = null;
-            }
+            try {
+                // =============================================
+                // BAGIAN INI DAPAT DIHUBUNGKAN KE DATABASE
+                // =============================================
+                
+                // Cek apakah menggunakan database
+                if (API_CONFIG.USE_DATABASE) {
+                    // Attempt login via API
+                    console.log('Attempting login via API...');
+                    const response = await dbService.login(username, password);
+                    
+                    if (response && response.user) {
+                        currentUser = response.user;
+                        
+                        // Get siswa data dari API jika ada
+                        if (response.user.siswaId) {
+                            const siswaData = await dbService.getSiswaById(response.user.siswaId);
+                            currentSiswa = siswaData || appData.siswa.find(s => s.id === response.user.siswaId);
+                        } else {
+                            currentSiswa = null;
+                        }
+                        
+                        // Simpan user info
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        localStorage.setItem('authToken', response.token);
+                        
+                        showNotification(`Login berhasil! Selamat datang, ${currentSiswa ? currentSiswa.nama : currentUser.username}!`, 'success');
+                        document.getElementById('loginForm').reset();
+                        loadStudentData();
+                        
+                        if (currentUser.role === 'admin') {
+                            showPage('admin');
+                        } else {
+                            showPage('home');
+                        }
+                        return;
+                    }
+                } else {
+                    // Fallback ke validasi lokal dengan data.json
+                    console.log('Using local authentication...');
+                    
+                    const user = appData.kredensial.find(k => 
+                        k.username.toLowerCase() === username.toLowerCase() && k.password === password
+                    );
+                    
+                    if (!user) {
+                        showNotification('Username atau password salah!', 'error');
+                        return;
+                    }
 
-            currentUser = user;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            alert('Login berhasil!');
-            document.getElementById('loginForm').reset();
-            loadStudentData();
+                    if (user.siswaId) {
+                        currentSiswa = appData.siswa.find(s => s.id === user.siswaId);
+                    } else {
+                        currentSiswa = null;
+                    }
 
-            if (user.role === 'admin') {
-                showPage('admin');
-            } else {
-                showPage('home');
+                    currentUser = user;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    showNotification(`Login berhasil! Selamat datang, ${currentSiswa ? currentSiswa.nama : user.username}!`, 'success');
+                    document.getElementById('loginForm').reset();
+                    loadStudentData();
+
+                    if (user.role === 'admin') {
+                        showPage('admin');
+                    } else {
+                        showPage('home');
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showNotification('Gagal melakukan login. Silahkan periksa koneksi dan coba lagi.', 'error');
+            } finally {
+                // Restore button state
+                loginBtn.disabled = false;
+                loginBtn.innerText = originalText;
             }
         }
 
         // Inisialisasi
         window.onload = async function() {
+            // Initialize database service
+            console.log('Initializing database service...');
+            await dbService.init();
+            
+            // Load application data
             await loadData();
+            
             // Cek apakah ada user yang login
             const loggedInUser = localStorage.getItem('currentUser');
             if (loggedInUser) {
