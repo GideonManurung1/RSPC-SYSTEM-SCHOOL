@@ -640,6 +640,41 @@
 
         // Logika Navigasi dengan Animasi Wave
         function showPage(pageId) {
+            // =============================================
+            // AUTH CHECK - Jika belum login, arahkan ke login
+            // =============================================
+            const loggedInUserStr = localStorage.getItem('currentUser');
+            let loggedInUser = null;
+            if (loggedInUserStr) {
+                try {
+                    loggedInUser = JSON.parse(loggedInUserStr);
+                } catch (e) {
+                    loggedInUser = null;
+                }
+            }
+            
+            const isLoginPage = pageId === 'login';
+            const isAdminPage = pageId === 'admin';
+            
+            // Jika belum login dan mencoba akses page selain login
+            if (!loggedInUser && !isLoginPage) {
+                console.warn('❌ Unauthorized: User belum login. Redirect ke login page.');
+                pageId = 'login';
+            }
+            
+            // Jika hanya bukan admin tapi mencoba akses admin page
+            if (loggedInUser && isAdminPage && loggedInUser.role !== 'admin') {
+                console.warn('❌ Forbidden: Hanya admin yang bisa akses admin panel. Redirect ke home.');
+                showNotification('❌ Akses ditolak! Hanya admin yang bisa akses halaman ini.', 'error');
+                pageId = 'home';
+            }
+            
+            // Jika sudah login tapi coba akses login page, redirect ke home
+            if (loggedInUser && isLoginPage) {
+                console.log('✓ User sudah login, redirect ke home page.');
+                pageId = 'home';
+            }
+            
             const waveOverlay = document.createElement('div');
             waveOverlay.className = 'wave-overlay';
             document.body.appendChild(waveOverlay);
@@ -900,10 +935,22 @@
 
         // Update navbar saat logout
         function handleLogout() {
+            // Hapus user session
             localStorage.removeItem('currentUser');
+            localStorage.removeItem('authToken');
+            
+            // Reset global variables
             currentUser = null;
             currentSiswa = null;
-            showPage('login');
+            
+            // Clear auth header
+            setAuthToken(null);
+            
+            // Show notification & redirect
+            showNotification('Anda telah logout. Sampai jumpa lagi!', 'success');
+            setTimeout(() => {
+                showPage('login');
+            }, 500);
         }
 
         // Fungsi Admin Panel
